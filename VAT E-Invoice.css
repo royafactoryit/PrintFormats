@@ -1,0 +1,69 @@
+@font-face {
+  font-family: 'gedinar';
+  src: url('https://arbfonts.com//wp-content/fonts/new-arabic-fonts//GE-Dinar-Two-Medium_1E.otf');
+}
+@font-face {
+  font-family: 'garde';
+  src: url('https://business.qms.deom.com.sa/files/ITC Avant Garde Gothic LT Demi Regular.otf');
+}
+
+thead {display: table-header-group; }
+tfoot {display: none; }
+@media print {
+
+.print-format {
+
+
+  margin-left: 0mm;
+margin-right: 0mm;
+
+
+
+
+
+}
+
+#footer-html{
+display:block;
+
+
+}
+.page-footer{
+position:fixed;
+bottom:0mm;
+
+}
+html{
+padding-bottom:0mm;
+}
+body{
+padding-bottom:0mm;
+}
+
+}
+
+.print-format {
+	padding: 0.1in;
+    font-size:40px;  
+    direction:ltr;
+
+}
+
+
+@media screen{
+
+.page-footer{display:none;}
+
+}
+
+@page  
+{ 
+    size: auto;   /* auto is the initial value */ 
+
+    /* this affects the margin in the printer settings */ 
+    margin: 0mm 0mm 0mm 0mm;  
+} 
+
+
+
+
