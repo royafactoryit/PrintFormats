@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+{% set color="#f2847a" %}
+   {% set comp = frappe.get_doc("Company",doc.company) %}
+    {% set company_name = comp.company_name %}
+     {% set company_logo = comp.company_logo %}
+      
+      {% if not color%} {% set color = "#878fad"%} {%endif%}
+      {% if comp.cr_number %} {% set cr = comp.cr_number | string %}{% endif %}
+      {% set cr_ar = cr | replace('0','٠') | replace('1','١') | replace('2','٢') | replace('3','٣') | replace('4','٤') 
+      | replace('5','٥') | replace('6','٦') | replace('7','٧') | replace('8','٨') | replace('9','٩') %}
+      
+      
+      
+      {% set company_english= comp.english_name %}
+      {% set phone= comp.phone_no %}
+      
+
+  
+       <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Almarai&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Almarai&family=Roboto:wght@500&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&display=swap" rel="stylesheet">
+<style>
+.color{background-color:{{color}} }
+.center{text-align:center;}
+.arial{font-family:arial;}
+    table {
+border: 1px solid black;
+border-spacing: 0;
+border-collapse:collapse;
+font-size:20px;
+}
+th,td{
+    font-family: 'Scheherazade', serif;font-size:12px;
+border : 1px solid black;
+}
+th, td
+{
+width:140px;
+line-height: 0.9;
+font-family: 'Scheherazade', serif;font-size:12px;
+padding:0mm;
+margin:0mm;
+}
+.ar{
+    text-align:right;
+    
+}
+    
+</style>
+
+
+
+<table class="items" style="width:100%;border:none;">
+    
+    <thead style="width:100%;border:none;"> 
+    <tr style="width:100%;border:none;">
+        <td colspan="9" style="width:100%;border:none;">
+            <div class="center color" style="width:100%;font-size:21px;font-weight:700;padding:1mm !important;padding-bottom:0mm !important;margin-bottom:1mm;">LOCAL PURCHASE ORDER</div> 
+         <table style="width:100%;border:none;"><tr>
+             <td style="width:20%;border:none">
+                 <div style="height:100px;">
+                     <img src="{{company_logo}}" style="height:100px;width:100mm !important;" />
+                 </div>
+             </td>
+             <td class="arial" style="border:none;text-align:right;font-size:11px;">
+                 Registered Billing Address:
+
+             </td>
+             <td style="width:40%;font-size:13px;font-family:arial;line-height:1.1;border:none;"><div>
+                 <b>ROYA Factory for Food Products</b><br>
+                 <span>Unit No: 94, Building 7738</span><br>
+                 <span>Al Huwayyah Street, Al Khuzama District</span><br>
+                 <span>RIYADH, 12582</span><br>
+                 <span>Kingdom of Saudi Arabia</span><br>
+                 <span>Tel: 0966 (0) 50 242 8888</span><br>
+             </div></td>
+         </tr></table>
+         
+         
+                  </td>
+    </tr>
+    </thead>
+    
+
+   <tr style="border:none;"><td colspan="9" style="border:none;padding:0mm !important;">
+       <table style="font-family:arial;width:100%;"><tr>
+           <td class="color center" style="font-family:arial;width:20%;font-size:12px;font-weight:700;">Purchase Order No.</td>
+           <td class="color center" style="font-family:arial;width:20%;font-size:12px;font-weight:700;">Purchase Order Date.</td>
+           <td class="color center" style="font-family:arial;width:20%;font-size:12px;font-weight:700;">Supplier Code</td>
+           <td class="color center" style="font-family:arial;width:20%;font-size:12px;font-weight:700;">Supplier Reference</td>
+           <td class="color center" style="font-family:arial;width:20%;font-size:12px;font-weight:700;">Payment Method</td>
+       </tr>
+       <tr>
+       <td class="center" style="font-size:12px;font-family:arial;">{{doc.name}}</td>
+        <td class="center" style="font-size:12px;font-family:arial;">{{frappe.utils.getdate(doc.transaction_date).strftime('%d/%m/%Y')}}</td>
+         <td class="center" style="font-size:12px;font-family:arial;">{{doc.supplier}}</td>
+        <td class="center" style="font-size:12px;font-family:arial;"></td>
+        <td class="center" style="font-size:12px;font-family:arial;">{{doc.custom_lpo_mode_payment}}</td>
+       </tr>
+       </table>
+       <table style="margin-top:1mm;width:100%">
+           <tr>
+               <td class="color arial" style="padding:3px !important;font-size:12px;font-weight:700;width:20%;">Payment Terms</td>
+               {%set terms=doc.payment_schedule[0].payment_term or "" %}
+               <td class="arial" style="font-size:12px;">{{terms}}</td>
+           </tr>
+       </table>
+       
+       <div class="color arial" style="width:30%;font-weight:700;font-size:12px;padding:3px !important;border:solid 1px black;margin-top:1mm;border-top:none;">Final Destination Delivery Address</div>
+      <div class="center arial" style="margin-top:1mm;width:100%;border:solid 1px black;font-size:11px;line-height:1.1;margin-top:-18px;">
+          <b>ROYA Factory for Food Products</b><br>
+          <b>Unit 2, 6835 Sudair Industrial and Business City</b><br>
+          <b>15336 - 3807, The Kindom of Saudi Arabia</b><br>
+          <span>(google location <b>JQQ8+8C</b> Sudair Industrial and Business City)</span><br>
+          <span>contact: Stephen M Moorby, COO Tel: 00966 (0) 58 117 5906</span><br>
+          <span>VAT NO:310467146100003</span><br>
+      </div>
+      
+     <table style="width:100%;margin-top:1mm;">
+         <tr> 
+         <td class="arial center color" rowspan="1" style="font-size:12px;width:80%;font-weight:700;" >Supplier</td>
+         <td class="arial center color" style="font-size:12px;font-weight:700;" >Package Qty</td>
+         </tr>
+         <tr>
+             <td class="arial center" rowspan="5" style="font-size:12px;">
+                 <b>{{doc.supplier}}</b><br>
+                 <b>{{doc.address_display}}</b><br>
+                 
+             </td>
+             <td class="arial center"  style="font-size:12px;">{{doc.total_qty}}</td>
+         </tr>
+          <tr> 
+         <td class="arial center color" style="font-size:12px;font-weight:700;" >Gross Weight</td>
+         </tr>
+         <tr> 
+         <td class="arial center " style="font-size:12px;" ></td>
+         </tr>
+         <tr> 
+         <td class="arial center color" style="font-size:12px;font-weight:700;" >Net Weight</td>
+         </tr>
+         <tr> 
+         <td class="arial center " style="font-size:12px;" ></td>
+         </tr>
+     </table>
+     
+      <table style="font-family:arial;width:100%;margin-top:1mm;"><tr>
+           <td class="color center" style="font-family:arial;width:20%;font-size:12px;font-weight:700;">Requested Start Date</td>
+           <td class="color center" style="font-family:arial;width:20%;font-size:12px;font-weight:700;">Required By</td>
+           <td class="color center" style="font-family:arial;;font-size:12px;font-weight:700;">Delivery Terms
+</td>
+           <td class="color center" style="font-family:arial;width:20%;font-size:12px;font-weight:700;">Delivery Location</td>
+           <td class="color center" style="font-family:arial;width:15%;font-size:12px;font-weight:700;">Currency</td>
+       </tr>
+       <tr>
+       <td class="center" style="font-size:12px;font-family:arial;">{{frappe.utils.getdate(doc.transaction_date).strftime('%d/%m/%Y')}}</td>
+        <td class="center" style="font-size:12px;font-family:arial;">{{frappe.utils.getdate(doc.schedule_date).strftime('%d/%m/%Y')}}</td>
+         <td class="center" style="font-size:12px;font-family:arial;">Pickup from Warehouse/Shop</td>
+        <td class="center" style="font-size:12px;font-family:arial;">{{doc.set_warehouse}}</td>
+        <td class="center" style="font-size:12px;font-family:arial;">{{doc.currency}}</td>
+       </tr>
+       </table>
+       
+        <table style="font-family:arial;width:100%;margin-top:1mm;border:none;"><tr>
+           <td class="color center" style="font-family:arial;width:15%;font-size:12px;font-weight:700;">Roya Item Code</td>
+           <td class="color center" style="font-family:arial;font-size:12px;font-weight:700;">Item Description
+</td>
+           <td class="color center" style="font-family:arial;;font-size:12px;font-weight:700;width:10%;;">Quantity
+</td>
+           <td class="color center" style="font-family:arial;width:15%;font-size:12px;font-weight:700;">Unit Price</td>
+           <td class="color center" style="font-family:arial;width:15%;font-size:12px;font-weight:700;">Total Price</td>
+       </tr>
+       
+           {% for item in doc.items %}<tr>
+       <td class="center" style="font-size:12px;font-family:arial;">{{item.item_code}}</td>
+        <td class="center" style="font-size:12px;font-family:arial;">{{item.item_name}}</td>
+         <td class="center" style="font-size:12px;font-family:arial;">{{item.qty}}</td>
+        <td class="center" style="font-size:12px;font-family:arial;">{{ "{:,.2f}".format(item.rate) }}</td>
+        <td class="center" style="font-size:12px;font-family:arial;">{{ "{:,.2f}".format(item.net_amount) }}</td>
+       </tr>
+       {% endfor %}
+       <tr>
+       <td class="center" style="font-size:12px;font-family:arial;border:none;"></td>
+        <td class="center" style="font-size:12px;font-family:arial;border:none;"></td>
+         <td class="center" style="font-size:12px;font-family:arial;border:none;"></td>
+        <td class="center color" style="font-size:12px;font-family:arial;font-weight:700;">Sub Total</td>
+        <td class="center" style="font-size:12px;font-family:arial;"> {{ "{:,.2f}".format(doc.total) }}</td>
+       </tr>
+       <tr>
+       <td class="center" style="font-size:12px;font-family:arial;border:none;"></td>
+        <td class="center" style="font-size:12px;font-family:arial;border:none;"></td>
+         <td class="center" style="font-size:12px;font-family:arial;border:none;"></td>
+        <td class="center color" style="font-size:12px;font-family:arial;font-weight:700">{{doc.items[0].tax_rate or '0' }}% VAT</td>
+        <td class="center" style="font-size:12px;font-family:arial;">{{ "{:,.2f}".format(doc.total_taxes_and_charges) }}</td>
+       </tr>
+       <tr>
+       <td class="center" style="font-size:12px;font-family:arial;border:none;"></td>
+        <td class="center" style="font-size:12px;font-family:arial;border:none;"></td>
+         
+        <td class="center color" colspan="2" style="font-size:12px;font-family:arial;font-weight:700">TOTAL amount in {{doc.currency}}</td>
+        <td class="center" style="font-size:12px;font-family:arial;">
+        {{ "{:,.2f}".format(doc.grand_total) }}</td>
+       </tr>
+       </table>
+       {% set ower=doc.owner %}
+       {% set creator=frappe.db.get_value("User",owner,"full_name") or ""%}
+            <table style="font-family:arial;width:100%;margin-top:1mm;"><tr>
+           <td class="color center" style="font-family:arial;width:33%;font-size:12px;font-weight:700;min-height:100px !important;">Order Created By</td>
+           <td class="color center" style="font-family:arial;width:33%;font-size:12px;font-weight:700;">Order Approved By </td>
+           <td class="color center" style="font-family:arial;;font-size:12px;font-weight:700;">Order Authorised By</td>
+
+       </tr>
+       <tr>
+       <td class="center" style="font-size:12px;font-family:arial;">{{creator}}
+       <br><br>
+       <span style="float:center;">Date : {{frappe.utils.getdate(doc.creation).strftime('%d/%m/%Y')}}</span>
+       </td>
+        <td class="center" style="font-size:12px;font-family:arial;">
+    {% if doc.workflow_state == 'Approved' %}
+        <img src="/private/files/COO%20Sig.png" alt="COO Signature" style="width: 50px; height: 50px;">
+    {% else %}
+        {{ doc.workflow_state }}
+    {% endif %}
+</td>
+         <td class="center" style="font-size:12px;font-family:arial;">
+    {% if doc.workflow_state == 'Approved' %}
+        <img src="/private/files/CEO%20Sig.png" alt="CEO Signature" style="width: 50px; height: 50px;">
+    {% elif doc.workflow_state == 'Approval Pending from CEO' %}
+        Approved by COO
+    {% else %}
+        Not yet approved by COO
+    {% endif %}
+</td>
+
+       </tr>
+       </table>
+       
+</td></tr>
+  
+   
+   
+   
+     <tfoot style="width:100%;margin-bottom:170px;" id="feet">
+    <tr style="border:none;width:100%;" class="trr" >
+        <td style="width:100%;border:none;" colspan="9"> <div style="height:40px;">
+            <div class="foot" style="text-align:center;margin-top:5px;" >
+           
+        
+</div>
+            
+            
+            </div></td>
+       
+    </tr>
+    </tfoot>
+    
+  
+</table>
+
+
+
+
+
+{% if not no_letterhead %}
+  <div class="page-footer" style="border:none;text-align:center;height:160px;width:100%;position:fixed;bottom:0mm;z-index=9999;" id ="footer-html">
+     
+    <div id="htmlfooter" style="width:100%;">
+       <div class="foot" style="border:none;text-align:center;margin-bottom:-24px;width:100%;" >
+       
+
+          <hr style="margin-top:-00px;padding-top:0;width:90%;border-color:{{color}};">
+          
+            <div style="margin-top:-20px;color:black;font-size:13px;">CR : 1011024286 -Ind. License : 62418 - Industrial City - Al-kharj - P.O Box : 3090. Zip Code : 12372 
+          
+           <!-- <div style="color:{{color}}"> <span style="font-size:13px;color:{{color}};">{{company_country}} - Mobile: {{phone}}</span></div>-->
+            <div style="color:black;font-size:13px;">Tell: {{comp.phone_no or '' }} {{comp.email or "" }} {{comp.website or ""}}</div>
+        
+</div>
+    </div>
+    
+  </div>
+  
+  {% endif %}
+  
+    <script>
+     if (document.getElementById("feet")) {
+ document.getElementById("feet").style.display=" table-footer-group";
+  }
+
+  </script>
