@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+ {% set customer = doc.customer%}
+   {% set ctax_id = frappe.get_doc("Customer",customer).tax_id %}
+   {% if doc.customer_address%}
+   {% set addr = frappe.get_doc("Address",doc.customer_address) %}
+   {% endif %}
+   {% set company_country = frappe.get_doc("Company",doc.company).country %}
+   {% set sales_order = doc.sales_order %}
+   {% if sales_order%}
+   {% set delivery_date =  frappe.get_doc("Sales Order",sales_order).delivery_date %}
+   {% endif %}
+   {% set comp = frappe.get_doc("Company",doc.company) %}
+    {% set company_name = comp.company_name %}
+     {% set company_logo = comp.company_logo %}
+      {% set color =  "#b92a39" %}
+      {% if comp.cr_number %} {% set cr = comp.cr_number | string %}{% endif %}
+      {% set cr_ar = cr | replace('0','٠') | replace('1','١') | replace('2','٢') | replace('3','٣') | replace('4','٤') 
+      | replace('5','٥') | replace('6','٦') | replace('7','٧') | replace('8','٨') | replace('9','٩') %}
+      
+      
+      
+      {% set company_english= comp.english_name %}
+      {% set phone= comp.phone_no %}
+      
+    {% set team = doc.get("sales_team") %} <!-- Modified line -->
+    {% set links = frappe.get_all('Dynamic Link', 
+    filters={'link_doctype': 'Company', 'link_name': doc.company, 'parenttype': 'Address'}, fields=['parent']) %}
+    {% if links %}
+    {% set address = frappe.get_doc("Address", links[0].parent) %}
+    {% endif %} 
+    
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Almarai&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Almarai&family=Roboto:wght@500&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&display=swap" rel="stylesheet">
+<style>
+    table {
+border: 1px solid black;
+border-spacing: 0;
+border-collapse:collapse;
+font-size:20px;
+}
+th,td{
+    font-family: 'Scheherazade', serif;font-size:12px;
+border : 1px solid black;
+}
+th, td
+{
+width:140px;
+line-height: 0.9;
+font-family: 'Scheherazade', serif;font-size:12px;
+padding:0mm;
+margin:0mm;
+}
+.ar{
+    text-align:right;
+    
+}
+    
+</style>
+<table class="items" style="width:100%;border:none;">
+    
+    <thead style="width:100%;border:none;"> 
+    <tr style="width:100%;border:none;">
+        <td colspan="9" style="width:100%;border:none;"> <div style="height:120px;width:100%;">
+            {% if not no_letterhead %}
+            <table style="width:100%;border:none;margin:-4mm;margin-top:1mm;margin-left:1mm;">
+              <tr style="border:none;">
+                  <td style="border:none;padding:0px!important;padding-top:12px!important;width:43%;">
+                 <diV style="letter-spacing: px;width:108%;line-height:1.58;color:{{color}};font-size:24px;font-family: tahoma, sans-serif;text-justify: inter-character;text-align: justify-all;">  Roya Factory for food Products</div>
+                </td>
+               
+                <td rowspan="2" style="border:none;width:18%;text-align:center;">
+                    <div style="margin-top:0px;">
+                 <img  src="/files/roya.png" style="width:140px!important; " /> 
+                </div></td>
+                  <td style=";padding:0px!important;padding-top:20px!important;line-height:1.2;width:38%;text-align:right;color:{{color}};font-size:25px;border:none;font-family: gedinar, sans-serif;">
+              مصنع رويا للمنتجات الغذائية
+                </td>
+                
+               </tr>
+               
+               
+               <tr style="border:none;">  
+               <td style="text-align:center;border:none;text-align:left;"> <span style="font-size:20px;color:{{color}};"> {% if cr %}C.R.: {{cr}}{% endif %}</span></td>
+               <td style="text-align:center;border:none;text-align:right;"> <span style="font-size:20px;color:{{color}}">  {% if cr %}<span style="color:{{color}};">س.ت:</span>{{cr_ar}} {% endif%}</span>  </td>
+               
+               </tr>
+           </table>
+            {% endif %}
+            
+            
+        </div></td>
+      
+        
+    </tr>
+    </thead>
+   <tr style="border:none;"><td colspan="9" style="border:none;">
+   {% set tax = "{:,.2f}".format(doc.total_taxes_and_charges) %}
+   {% set last_total = "{:,.2f}".format(doc.grand_total)  %}
+   <div style="text-align:center;width:100%;margin-top:-35px;">
+    <span style="font-family: 'roboto', serif;font-size:25px;color:black;margin-right:8px;">TAX INVOICE </span>
+<span id="fatoura" style="font-family: 'Amiri', cursive;font-size:27px;line-height:1.9;color:black;"> فاتورة ضريبية</span>  <br>
+<!--<span style="font-family: 'roboto', serif;font-size:25px;color:black;margin-right:8px;">SALES INVOICE </span>
+<span id="fatoura" style="font-family: 'Amiri', cursive;font-size:27px;line-height:1.9;color:black;"> فاتورة المبيعات</span>  <br>-->
+                   {% if doc.is_return %}
+<div style="margin-top:-10px;font-size:13px;margin-bottom:5px;">
+<span style="color:black;">Returned -</span> <span style="font-size:19px;font-family: 'Scheherazade'; ">مرتجع</span><br> 
+</div>{% endif %}
+
+{% if doc.tax_id or comp.tax_id %}
+<span style="color:black;"> VAT No.:</span><span style="color:black;"> {{doc.tax_id or comp.tax_id or ''}}</span> :<span style="color:black;font-family: 'Lateef', cursive;">الرقم الضريبي</span>
+{% endif %}
+</div>
+<table style="width:102%;border:none;;margin-top:-5px;margin-left:-6px;margin-right:-3px;">
+    <tr>
+        <td style="width:47%;border:none;position:relative;">
+            
+            <div style="position:absolute;bottom:6px;">
+            <div style="width:110px;height:110px;margin-left:30%;margin-bottom:10px;margin-top:-33px;text-align:center;">
+                {% set n = doc.customer_name | replace("&","%26")%}
+                {% set m = comp.name | replace("&","%26") %}
+                {% set time = doc.posting_time|string %}
+    {% if time[1] == ':'%} {% set time= '0' + time[:4]%} {% endif %}
+            {% if doc.docstatus ==2 %}<br>
+                <span style="color:{{color}};font-family:'Amiri',cursive ;font-size:24px;line-height:1.3;"><br> فاتورة ملغية </span>
+            {% elif doc.docstatus ==0%}<br>
+               <span style="color:{{color}};font-family:'Amiri',cursive ;font-size:24px;line-height:1.3;"><br> فاتورة مسودة </span>
+            {% else %}
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&color={{color[1:]}}&data=إسم المورد:{{m}} %0Aإسم العميل:  {{n}} %0Aرقم تسجيل الضريبة :{{ doc.tax_id or comp.tax_id or '' }} 
+ %0Aتاريخ الإصدار : {{time}} {{doc.posting_date}} %0Aتاريخ الإستحقاق: {{doc.due_date}} %0Aإجمالي الضريبة : {{ tax }} %0Aإجمالي الفاتورة : {{ last_total }} {{doc.currency}}" alt="" width:"10" height:"100" /> 
+ 
+ <!--<img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&color={{color[1:]}}&data={{qrcode}}" alt="" />-->
+ 
+ {% endif %}
+</div>
+            <table class="t1 listdb" style="height:100%;">
+<tr style=" height:10px;">
+    <td style="font-family: 'Scheherazade', serif;font-size:15px;"><b>Invoice Number:</b></td>
+    <td style="font-family: 'Scheherazade', serif;font-size:15px;text-align:center;width:43%;">{{doc.name}}</td>
+    <td class="ar" style="font-family: 'Scheherazade', serif;font-size:15px;width:25%;"><b>رقم الفاتورة</b></td>
+  </tr>
+
+<tr>
+    <td style="font-family: 'Scheherazade', serif;font-size:15px;" ><b>Invoice Issue Date:</b></td>
+    <td style="font-family: 'Scheherazade', serif;font-size:15px;text-align:center;" >{{doc.posting_date}} {{time}}</td>
+    <td class="ar" style="font-family: 'Scheherazade', serif;font-size:15px;" ><b>تاريخ إصدار الفاتورة</b></td>
+</tr> 
+<tr>
+    <td style="font-family: 'Scheherazade', serif;font-size:15px;" ><b>Due Date:</b></td>
+    <td style="font-family: 'Scheherazade', serif;font-size:15px;text-align:center;" >{{doc.due_date}} </td>
+    <td class="ar" style="font-family: 'Scheherazade', serif;font-size:15px;" ><b>تاريخ الإستحقاق</b></td>
+</tr>
+
+
+</table>
+</div>
+        </td>
+        <td style="border:none;">
+<table id="big" style="width:99%;height:100%;margin-top:10px;">
+
+
+<tr >
+
+	<td colspan="2" style="width:30%;font-family: 'Scheherazade', serif;font-size:15px;" ><b>Customer name</b></td>
+	<td colspan="2"  style="line-height:0.8;text-align:center;font-family: 'Scheherazade', serif;font-size:15px;">{{doc.customer}}</td>
+
+	<td  colspan="2"  class="ar" style="font-family: 'Scheherazade', serif;font-size:15px;width:20%;" > <b>إسم العميل </b></td>
+</tr>
+<tr>
+
+	<td colspan="2" style="font-family: 'Scheherazade', serif;font-size:15px;"><b>Address</b></td>
+	<td colspan="2" style="line-height:0.8;text-align:center;font-family: 'Scheherazade', serif;font-size:15px;">{% if addr %}{{addr.address_line1}} {% endif %}</td>
+	
+	<td colspan="2"  class="ar" style="font-family: 'Scheherazade', serif;font-size:15px;"><b>العنوان</b></td>
+</tr>
+
+<tr>
+
+	<td colspan="2" style="font-family: 'Scheherazade', serif;font-size:15px;" ><b>VAT No:</b></td>
+	<td colspan="2"  style="text-align:center;font-family: 'Scheherazade', serif;font-size:15px;">{{ctax_id or ''}}</td>
+	
+	<td colspan="2"  class="ar"  style= "line-height: 0.9;font-family: 'Scheherazade', serif;font-size:15px;"><b>الرقم الضريبي</b></td>
+</tr>
+<tr>
+
+	<td colspan="2"  style="line-height:0.8;font-family: 'Scheherazade', serif;font-size:15px;"><b>Contact</b></td>
+	<td colspan="2"  style="line-height:0.8;text-align:center;font-family: 'Scheherazade', serif;font-size:15px;">{{doc.contact_mobile or ''}}</td>
+
+	<td colspan="2"  class="ar" style="line-height:0.8;font-family: 'Scheherazade', serif;font-size:15px;"><b>التواصل</b></td>
+</tr>
+<tr>
+    <td colspan="2" style="font-family: 'Scheherazade', serif;font-size:15px;" ><b>P.O. Number</b></td>
+    <td colspan="2" style="font-family: 'Scheherazade', serif;font-size:15px;text-align:center;" >{{doc.po_no or '' }}</td>
+    <td  colspan="2" class="ar" style="font-family: 'Scheherazade', serif;font-size:15px;" ><b>أمر الشراء</b></td>
+</tr>
+<tr>
+    <td colspan="2" style="font-family: 'Scheherazade', serif;font-size:15px;" ><b>Sale Person</b></td>
+    <td colspan="2" style="font-family: 'Scheherazade', serif;font-size:15px;text-align:center;" >{% if team[0] %}{{team[0]['sales_person']}}{% endif %}</td>
+    <td colspan="2" class="ar" style="font-family: 'Scheherazade', serif;font-size:15px;" ><b>المندوب</b></td>
+</tr>
+</table>
+
+</td>
+</tr>
+</table>
+ 
+</td></tr>
+   <tr style="border:none;"><td colspan="9" style="border:none;"><table style="width:100%;border:none;"> 
+   <tr style="background-color:{{color}};border-bottom:none;">
+        <td colspan="5" style="line-height:0.7;text-align:left;color:white;border-right:none;font-size:19px;border-bottom:none;font-weight:bold;">Line Items:</td>
+        <td colspan="4" style="line-height:0.7;border-left:none;text-align:right;color:white;font-family: 'Scheherazade', serif;font-size:21px;border-bottom:none;font-weight:bold;">توصيف السلعة أو الخدمة </td>
+    </tr>
+    <tr style="font-weight:bold;text-align:center;" class="trr" >
+        <td style="width:2%;font-size:14px;line-height:1.8;"> <span id="SN">S.N</span><br><span>ر.ت</span></td>
+        <td style="line-height:1.8;font-size:14px;"> <span>Nature of Good or Services</span><br> <span style="font-family: 'Scheherazade', serif;font-size:15px;">تفاصيل السلع والخدمات </span></td>
+        <td style="line-height:1.3;text-align:center;font-size:14px;width:8%;"> <span>Unit price</span><br> <span style="font-family: 'Scheherazade', serif;font-size:15px;">سعر الوحدة</span> <span><br>({{doc.currency}})</span></td>
+         <td style="line-height:1.8;text_align:center;width:6%;font-size:14px;display: table-cell;vertical-align: middle;"> <span>Quantity</span><br> <span style="font-family: 'Scheherazade', serif;font-size:15px;">الكمية</span></td>
+          <td style="line-height:1.8;text_align:center;width:6%;font-size:14px;"> <span>Discount</span><br> <span style="font-family: 'Scheherazade', serif;font-size:15px;">خصومات</span></td>
+        <td style="text_align:center;line-height:1;width:14%;font-size:14px;"> <span>Vatable Sub Total Amount</span><br> <span style="font-family: 'Scheherazade', serif;font-size:15px;">المبلغ الخاضع للضريبة</span><br><span>({{doc.currency}})</span></td>
+       
+       
+        <td style="text_align:center;line-height:1.8;width:8%;font-size:14px;"> <span>VAT Rate</span><br> <span style="font-family: 'Scheherazade', serif;font-size:15px;">نسبة الضريبة</span></td>
+        <td style="text_align:center;line-height:1.3;font-size:14px;width:10%;"> <span>VAT Amount</span><br> <span style="font-family: 'Scheherazade', serif;font-size:15px;">مبلغ الضريبة</span><br><span>({{doc.currency}})</span></td>
+        <td style="width:17%;line-height:1;font-size:14px;"> <span>Total Amount (Including VAT)</span><br> <span style="font-family: 'Scheherazade', serif;font-size:15px;">المجموع (شامل الضريبة)</span></td>
+        
+    </tr>
+    
+    {% set total_discount=[0]%}
+    {% set total=[0]%}    
+    {% set i=[1]%}   
+    {% for item in doc.items %}
+    {% if (item.price_list_rate and (item.discount_amount==0 and item.price_list_rate == item.rate )) or (  item.price_list_rate and item.discount_amount )%}
+        {% if total.append(total.pop()+ item.price_list_rate*item.qty) -%}{% endif %}
+    {% else %}
+        {% if total.append(total.pop()+ item.rate*item.qty) -%}{% endif %}
+    {% endif %}
+    
+    
+    {% if total_discount.append(total_discount.pop()+ item.discount_amount*item.qty) -%}{% endif %}
+    <tr>
+        <td style="width:2%;" > {{i[0]}}</td>
+          <td style="line-height:1;font-family: 'Scheherazade', serif;font-size:15px;">{{item.item_name[:38]}}</td>
+        <td class="ar" style="font-family: 'Scheherazade', serif;font-size:15px; vertical-align: middle;"> {%  if (item.price_list_rate and (item.discount_amount==0 and item.price_list_rate == item.rate )) or (  item.price_list_rate and item.discount_amount ) %}{{ "{:,.2f}".format(item.price_list_rate) }} {% set unit = item.price_list_rate %}{% else %}{{ "{:,.2f}".format(item.rate) }} {% set unit = item.rate %}{% endif %}</td>
+        <td class="ar" style="font-family: 'Scheherazade', serif;font-size:15px;">{% if (item.qty | int) == item.qty %}{{item.qty | int}}{% else %}{{ item.qty }}{% endif %}</td>
+        <td class="ar" style="font-family: 'Scheherazade', serif;font-size:15px;">{% if unit %}{{ "{:,.2f}".format( ( unit * item.qty - item.net_amount )*100 /(unit*item.qty) )}}{% else %}0{% endif %}%</td>
+          <!--{% if item.discount_percentage %}{% if item.discount_percentage %1 ==0 %}{{item.discount_percentage |int }}{% else %}{{ "{:,.2f}".format(item.discount_percentage)}}{% endif %}{% else %}{% if item.discount_amount %}{% set per = ((item.discount_amount*100/item.price_list_rate) | float) %}{% if per %1 ==0 %}{{per |int }}{% else %}{{ "{:,.2f}".format(per)}}{% endif %}{% else %}0{% endif %}{% endif%}% -->
+        <td class="ar" style="font-family: 'Scheherazade', serif;font-size:15px;">{{ "{:,.2f}".format(item.net_amount) }}</td>
+        
+        <td class="ar" style="font-family: 'Scheherazade', serif;font-size:15px;">{{item.tax_rate}}%</td>
+        <td class="ar" style="font-family: 'Scheherazade', serif;font-size:15px;">{{ "{:,.2f}".format(item.tax_amount) }}</td>
+        <td class="ar" style="font-family: 'Scheherazade', serif;font-size:15px;">{% if item.total_amount != 0 %}{{ "{:,.2f}".format(item.total_amount)}}{% else %}{{ "{:,.2f}".format(item.amount)}}{% endif %} {{doc.currency}}</td>
+    </tr>
+    {% if i.append(i.pop()+1) -%}{% endif %}
+    {% endfor %}
+   </table></td></tr>
+
+    
+   
+    
+
+ <tr><td colspan="9" style="border:none;">
+        <table style="width:100%;border:none;">
+            
+     <tr style="background-color:{{color}};">
+        <td colspan="3"  style="color:white;line-height:0.5;border-right:none;font-size:21px;font-weight:bold;">Total amounts:</td>
+        <td colspan="3" class="ar" style="border-left:none;color:white;font-family: 'Scheherazade', serif;font-size:18px;line-height:0.5;font-weight:bold;" >اجمالي المبالغ</td>
+    </tr>
+    <tr>
+        
+        <td colspan="2" style="text-align:left;line-height:0.9;font-size:10px;font-family:arial;">Total (Excluding VAT)</td>
+        <td colspan="2" style="text-align:center;line-height:0.7;font-size:11px;font-family:arial;"><div style="display:inline-block"><span style="float:left;font-family:'Scheherazade', serif;font-size:18px;margin-right:7px;">ريال</span><span style="float:right;">{{ "{:,.2f}".format(total[0]) }}</span></div></td>
+        <td colspan="2" class="ar" style="font-family: 'Scheherazade', serif;font-size:15px;line-height:0.7;">(الإجمالي ( غير شاملة ضريبة القيمة المضافة</td>
+        
+        
+    </tr>
+    <tr>
+        
+        <td colspan="2" style="font-family: Arial, serif;font-size:10px;line-height:0.7;">Discount</td>
+        <td colspan="2" style="text-align:center;line-height:0.7;font-size:11px;font-family:arial;"><div style="display:inline-block">{% if total[0] -doc.net_total  != 0 %}<span style="float:left;font-family:'Scheherazade', serif;font-size:18px;margin-right:7px;">ريال </span>{% endif %}<span style="float:right;">{{ "{:,.2f}".format(total[0] -doc.net_total) | replace('-','')  }}</span></div></td>
+      
+        <td colspan="2" class="ar" style="font-family: 'Scheherazade', serif;font-size:15px;line-height:0.7;">مجموع الخصومات</td>
+        
+        
+    </tr>
+    <tr >
+       
+        <td colspan="2" style="font-family: Arial, serif;font-size:10px;line-height:0.7;">Total Taxable Amount (Excluding VAT)</td>
+        <td colspan="2" style="text-align:center;line-height:0.7;font-size:11px;font-family:arial;"><div style="display:inline-block"><span style="float:left;font-family:'Scheherazade', serif;font-size:18px;margin-right:7px;">ريال </span><span style="float:right;">{{ "{:,.2f}".format(doc.net_total) }}</span></div></td>
+        <td colspan="2" class="ar" style="font-family: 'Scheherazade', serif;font-size:15px;line-height:0.7;">(الإجمالي الخاضع للضريبة ( غير شاملة ضريبة القيمة المضافة</td>
+        
+        
+    </tr>
+    <tr>
+       
+        <td colspan="2" style="font-family: Arial, serif;font-size:10px;line-height:0.7;">Total VAT (15%)</td>
+        <td colspan="2" style="text-align:center;line-height:0.7;font-size:11px;font-family:arial;"><div style="display:inline-block">{% if doc.total_taxes_and_charges != 0 %}<span style="float:left;font-family:'Scheherazade', serif;font-size:18px;margin-right:7px;">ريال </span>{% endif %}<span style="float:right;">{{ "{:,.2f}".format(doc.total_taxes_and_charges) }}</span></div></td>
+        <td colspan="2" class="ar" style="font-family: 'Scheherazade', serif;font-size:15px;line-height:0.7;"> (%١٥) مجموع ضريبة القيمة المضافة</td>
+        
+        
+    </tr>
+    <tr style="border:none;">
+       
+        <td colspan="2" style="font-family: Arial, serif;font-size:10px;line-height:0.7;">Total Amount Due</td>
+        <td colspan="2" style="text-align:center;line-height:0.7;font-size:11px;font-family:arial;"><div style="display:inline-block"><span style="float:left;font-family:'Scheherazade', serif;font-size:18px;margin-right:7px;">ريال </span><span style="float:right;">{{ "{:,.2f}".format(doc.grand_total)}}</span></div></td>
+        <td colspan="2" class="ar last-page" style="font-family: 'Scheherazade', serif;font-size:15px;line-height:0.7;">إجمالي المبلغ المستحق</td>
+    </tr>
+    <tr>
+       <td colspan="6">
+           <table style="width:102%;border:none;margin-left:-2mm;margin-right:4mm;margin-top:-1mm;">
+               <tr style="border:none;"> <td  style="border:none;font-family:arial;font-size:10px;width:60%;"><div style="margin-top:3px;"></div></td>
+        <td style="border:none;text-align:right;font-size:17px;">{{doc.in_words | replace('SAR','') | replace('.','')  | replace('only','SAR.')}}</td>
+        </tr>
+               
+           </table>
+           
+       </td>
+        
+    </tr>         
+   
+        </table>
+        
+    </td></tr>
+   
+   
+  
+   
+   
+   
+     <tfoot style="width:100%;margin-bottom:100px;" id="feet">
+    <tr style="border:none;width:100%;" class="trr" >
+        <td style="width:100%;border:none;" colspan="9"> <div style="height:40px;">
+            <div class="foot" style="text-align:center;margin-top:5px;" >
+           
+        
+</div>
+            
+            
+            </div></td>
+       
+    </tr>
+    </tfoot>
+    
+  
+</table>
+
+
+
+
+
+{% if not no_letterhead %}
+  <div class="page-footer" style="text-align:center;height:50px;width:100%;position:fixed;bottom:0mm;z-index=9999;" id ="footer-html">
+     
+    <div id="htmlfooter" style="width:100%;">
+       <div class="foot" style="text-align:center;margin-top:0px;width:100%;" >
+            <p class="page-number visible-pdf" style="font-size:13px;">
+                {{ _("<b> {0}/{1} </b>").format('<span class="page"></span>', '<span class="topage"></span>') }}
+            </p>
+          <hr style="margin-top:-00px;padding-top:0;width:90%;border-color:{{color}};">
+          {% if address %}
+            <div style="margin-top:-20px;color:black;font-size:13px;">{{address.address_line1}} </div>
+          {% endif %}
+           <!-- <div style="color:{{color}}"> <span style="font-size:13px;color:{{color}};">{{company_country}} - Mobile: {{phone}}</span></div>-->
+            <div style="color:black;font-size:13px;">{% if comp.phone_no %}Phone : {{comp.phone_no}}{% endif %} | Email: {% if comp.email%}{{comp.email}}{% endif %} - {% if comp.website %} | Url: {{comp.website}}{% endif %}{% if comp.fax %} - Fax: {{comp.fax}}{% endif %}</div>
+        
+</div>
+    </div>
+    
+  </div>
+  
+  {% endif %}
+  
+ <script>
+     if (document.getElementById("feet")) {
+ document.getElementById("feet").style.display=" table-footer-group";
+  }
+      
+      
+  </script>
