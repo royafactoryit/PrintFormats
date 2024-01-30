@@ -1,0 +1,77 @@
+
+thead {display: table-header-group; }
+tfoot {display: none; }
+@media print {
+
+.print-format-gutter{
+   
+    margin-left:2mm;
+    margin-right:2mm;
+    margin-top:10mm !important;
+}
+.print-format {
+
+  margin-left: 0mm;
+margin-right: 0mm;
+margin-top:-10mm !important;
+margin-bottom:0mm !important;
+
+padding:0 !important;
+}
+
+
+#footer-html{
+display:block;
+
+
+}
+.page-footer{
+position:fixed;
+bottom:0mm;
+
+}
+html{
+padding-bottom:0mm;
+
+}
+body{
+padding-bottom:0mm;
+}
+
+}
+
+.print-format {
+	padding: 0.1in;
+    font-size:40px;  
+    direction:ltr;
+
+}
+
+
+@media screen{
+
+.page-footer{display:none;}
+
+}
+@page  
+{ 
+    size: auto;   /* auto is the initial value */ 
+
+    /* this affects the margin in the printer settings */ 
+    margin: 0mm 0mm 0mm 0mm;  
+} 
+
+.d{
+ text-align: justify; /* For Edge */
+  -moz-text-align-last: right; /* For Firefox prior 58.0 */
+  text-align-last: right;
+}
+
+.td{
+    text-align:center;
+    font-size:30px !important;
+}
+
+
+
+
