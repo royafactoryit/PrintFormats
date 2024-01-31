@@ -1,0 +1,14 @@
+
+<!--       <hr style="margin-top: -00px; padding-top: 0; width: 90%; border-color: {{color}};">
+
+<div style="text-align: center; margin-top: -20px; color: black; font-size: 13px;">
+  CR: 1011024286 - Ind. License: 62418 - Industrial City - Al-kharj - P.O Box: 3090. Zip Code: 12372
+</div>
+
+<div style="text-align: center; color: {{color}};">
+  <span style="font-size: 13px; color: {{color}};">{{company_country or "Saudi Arabia"}} - Mobile: {{phone}}</span>
+</div>
+
+<div style="text-align: center; color: black; font-size: 13px;">
+  Tell: {{comp.phone_no or ''}} {{comp.email or ""}} {{comp.website or ""}}
+</div>-->
